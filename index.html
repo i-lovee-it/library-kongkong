@@ -208,20 +208,25 @@ function getTree(acorns){
 function getProgressBar(acorns){
 
     let percent =
-    Math.min(acorns,30);
+    Math.min((acorns / 30) * 100, 100);
 
-    let filled =
-    Math.floor(percent / 30 * 20);
-
-    let empty =
-    20 - filled;
-
-    return (
-        "🟩".repeat(filled) +
-        "⬜".repeat(empty)
-    );
+    return `
+    <div style="
+        width:100%;
+        background:#ddd;
+        border-radius:10px;
+        overflow:hidden;
+        height:20px;
+        margin-top:5px;
+    ">
+        <div style="
+            width:${percent}%;
+            background:#7fa66b;
+            height:20px;
+        "></div>
+    </div>
+    `;
 }
-
 
 async function checkIn(){
 
