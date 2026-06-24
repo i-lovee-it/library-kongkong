@@ -131,7 +131,7 @@ const db = getFirestore(app);
 
 alert("Firebase 연결 성공!");
 
-function checkIn(){
+async function checkIn(){
 
     let name =
     document.getElementById("name").value.trim();
@@ -152,63 +152,53 @@ function checkIn(){
     let userId =
     name + "_" + birth;
 
-    let participants =
-    JSON.parse(
-    localStorage.getItem("participants")
-    ) || [];
-
-    if(!participants.includes(userId)){
-
-        participants.push(userId);
-
-        localStorage.setItem(
-        "participants",
-        JSON.stringify(participants)
-        );
-    }
-
     let today =
     new Date().toLocaleDateString("ko-KR");
 
-    let lastCheckIn =
-    localStorage.getItem(userId + "_date");
+    let userRef =
+    doc(db,"participants",userId);
+
+    let userSnap =
+    await getDoc(userRef);
+
+    let acornCount = 0;
+    let lastCheckIn = "";
+
+    if(userSnap.exists()){
+
+        let data =
+        userSnap.data();
+
+        acornCount =
+        data.acorns || 0;
+
+        lastCheckIn =
+        data.lastDate || "";
+    }
 
     if(lastCheckIn == today){
-
-        let currentAcorns =
-        Number(
-        localStorage.getItem(userId + "_acorn")
-        ) || 0;
 
         document.getElementById("result").innerHTML =
         "🐿️<br><br>" +
         name +
         " 친구!<br>" +
         "오늘은 이미 출석했어 😊<br><br>" +
-        "🌰 ".repeat(currentAcorns) +
+        "🌰 ".repeat(acornCount) +
         "<br>총 " +
-        currentAcorns +
+        acornCount +
         "개";
 
         return;
     }
 
-    let acornCount =
-    Number(
-    localStorage.getItem(userId + "_acorn")
-    ) || 0;
-
     acornCount++;
 
-    localStorage.setItem(
-    userId + "_acorn",
-    acornCount
-    );
-
-    localStorage.setItem(
-    userId + "_date",
-    today
-    );
+    await setDoc(userRef,{
+        name:name,
+        birth:birth,
+        acorns:acornCount,
+        lastDate:today
+    });
 
     document.getElementById("result").innerHTML =
     "🎉 출석 완료!<br><br>" +
@@ -219,7 +209,6 @@ function checkIn(){
     acornCount +
     "개";
 }
-
 let secretCount = 0;
 
 function secretClick(){
@@ -314,7 +303,7 @@ function showAdminPage(){
     html;
 }
 
-function showMyAcorns(){
+async function showMyAcorns(){
 
     let name =
     document.getElementById("name").value.trim();
@@ -335,10 +324,22 @@ function showMyAcorns(){
     let userId =
     name + "_" + birth;
 
-    let acorns =
-    Number(
-    localStorage.getItem(userId + "_acorn")
-    ) || 0;
+    let userRef =
+    doc(db,"participants",userId);
+
+    let userSnap =
+    await getDoc(userRef);
+
+    let acorns = 0;
+
+    if(userSnap.exists()){
+
+        let data =
+        userSnap.data();
+
+        acorns =
+        data.acorns || 0;
+    }
 
     document.getElementById("result").innerHTML =
     name +
