@@ -114,8 +114,11 @@ import {
   getFirestore,
   doc,
   getDoc,
-  setDoc
-} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+  setDoc,
+  collection,
+  getDocs
+}
+from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDRpc1AK0Gaf4gynxyXTIn6ZE0utXLD6rg",
@@ -235,15 +238,10 @@ function adminLogin(){
         return;
     }
 
-    showAdminPage();
-}
+async function showAdminPage(){
 
-function showAdminPage(){
-
-    let participants =
-    JSON.parse(
-    localStorage.getItem("participants")
-    ) || [];
+    const snapshot =
+    await getDocs(collection(db,"participants"));
 
     let totalAcorns = 0;
     let completeUsers = 0;
@@ -254,12 +252,13 @@ function showAdminPage(){
     html +=
     "<div style='text-align:left;'>";
 
-    participants.forEach(user => {
+    snapshot.forEach(docSnap => {
 
-        let acorns =
-        Number(
-        localStorage.getItem(user + '_acorn')
-        ) || 0;
+        const data =
+        docSnap.data();
+
+        const acorns =
+        data.acorns || 0;
 
         totalAcorns += acorns;
 
@@ -267,14 +266,11 @@ function showAdminPage(){
             completeUsers++;
         }
 
-        let parts =
-        user.split("_");
-
         html +=
         "👦 " +
-        parts[0] +
+        data.name +
         " (" +
-        parts[1] +
+        data.birth +
         ") 🌰 " +
         acorns +
         "개<br>";
@@ -284,7 +280,7 @@ function showAdminPage(){
 
     html +=
     "👥 총 참가자 : " +
-    participants.length +
+    snapshot.size +
     "명<br>";
 
     html +=
