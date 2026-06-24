@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>도서관 출석 콩콩</title>
+
+<style>
+
+body{
+    font-family:"맑은 고딕",sans-serif;
+    background:#f7f5ea;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    margin:0;
+}
+
+.card{
+    background:white;
+    width:350px;
+    padding:30px;
+    border-radius:20px;
+    text-align:center;
+    box-shadow:0 4px 15px rgba(0,0,0,0.1);
+}
+
+.squirrel{
+    font-size:60px;
+    cursor:pointer;
+}
+
+h1{
+    color:#5f7f55;
+}
+
+input{
+    width:100%;
+    padding:12px;
+    margin-top:10px;
+    margin-bottom:15px;
+    border:1px solid #ddd;
+    border-radius:10px;
+    box-sizing:border-box;
+}
+
+button{
+    width:100%;
+    padding:14px;
+    background:#7fa66b;
+    color:white;
+    border:none;
+    border-radius:12px;
+    font-size:16px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#6b9158;
+}
+
+#result{
+    margin-top:20px;
+    font-weight:bold;
+    color:#5f7f55;
+    line-height:1.8;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="card">
+
+<div class="squirrel" onclick="secretClick()">
+🐿️
+</div>
+
+<h1>도서관 출석 콩콩</h1>
+
+<p>
+안녕!<br>
+나는 책다람쥐 콩이야 🌰<br>
+도토리를 모아 책숲을 만들어보자!
+</p>
+
+<input
+type="text"
+id="name"
+placeholder="이름">
+
+<input
+type="text"
+id="birth"
+placeholder="생일 (예: 0509)">
+
+<button onclick="checkIn()">
+🌰 콩! 출석하기
+</button>
+
+<button onclick="showMyAcorns()" style="margin-top:10px;">
+🌰 내가 모은 도토리 보기
+</button>
+
+<div id="result"></div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+
+import {
+  getFirestore,
+  doc,
+  getDoc,
+  setDoc
+} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDRpc1AK0Gaf4gynxyXTIn6ZE0utXLD6rg",
+  authDomain: "library-kongkong.firebaseapp.com",
+  projectId: "library-kongkong",
+  storageBucket: "library-kongkong.firebasestorage.app",
+  messagingSenderId: "443047968802",
+  appId: "1:443047968802:web:326c237815b93f914c0a7b"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+alert("Firebase 연결 성공!");
+
+function checkIn(){
+
+    let name =
+    document.getElementById("name").value.trim();
+
+    let birth =
+    document.getElementById("birth").value.trim();
+
+    if(name==""){
+        alert("이름을 입력해주세요!");
+        return;
+    }
+
+    if(birth==""){
+        alert("생일을 입력해주세요!");
+        return;
+    }
+
+    let userId =
+    name + "_" + birth;
+
+    let participants =
+    JSON.parse(
+    localStorage.getItem("participants")
+    ) || [];
+
+    if(!participants.includes(userId)){
+
+        participants.push(userId);
+
+        localStorage.setItem(
+        "participants",
+        JSON.stringify(participants)
+        );
+    }
+
+    let today =
+    new Date().toLocaleDateString("ko-KR");
+
+    let lastCheckIn =
+    localStorage.getItem(userId + "_date");
+
+    if(lastCheckIn == today){
+
+        let currentAcorns =
+        Number(
+        localStorage.getItem(userId + "_acorn")
+        ) || 0;
+
+        document.getElementById("result").innerHTML =
+        "🐿️<br><br>" +
+        name +
+        " 친구!<br>" +
+        "오늘은 이미 출석했어 😊<br><br>" +
+        "🌰 ".repeat(currentAcorns) +
+        "<br>총 " +
+        currentAcorns +
+        "개";
+
+        return;
+    }
+
+    let acornCount =
+    Number(
+    localStorage.getItem(userId + "_acorn")
+    ) || 0;
+
+    acornCount++;
+
+    localStorage.setItem(
+    userId + "_acorn",
+    acornCount
+    );
+
+    localStorage.setItem(
+    userId + "_date",
+    today
+    );
+
+    document.getElementById("result").innerHTML =
+    "🎉 출석 완료!<br><br>" +
+    name +
+    " 친구!<br><br>" +
+    "🌰 ".repeat(acornCount) +
+    "<br>총 " +
+    acornCount +
+    "개";
+}
+
+let secretCount = 0;
+
+function secretClick(){
+
+    secretCount++;
+
+    if(secretCount >= 5){
+
+        secretCount = 0;
+
+        adminLogin();
+    }
+}
+
+function adminLogin(){
+
+    let pw =
+    prompt("관리자 비밀번호를 입력하세요");
+
+    if(pw !== "0509"){
+
+        alert("비밀번호가 틀렸습니다.");
+
+        return;
+    }
+
+    showAdminPage();
+}
+
+function showAdminPage(){
+
+    let participants =
+    JSON.parse(
+    localStorage.getItem("participants")
+    ) || [];
+
+    let totalAcorns = 0;
+    let completeUsers = 0;
+
+    let html =
+    "<h3>📋 관리자 페이지</h3>";
+
+    html +=
+    "<div style='text-align:left;'>";
+
+    participants.forEach(user => {
+
+        let acorns =
+        Number(
+        localStorage.getItem(user + '_acorn')
+        ) || 0;
+
+        totalAcorns += acorns;
+
+        if(acorns >= 30){
+            completeUsers++;
+        }
+
+        let parts =
+        user.split("_");
+
+        html +=
+        "👦 " +
+        parts[0] +
+        " (" +
+        parts[1] +
+        ") 🌰 " +
+        acorns +
+        "개<br>";
+    });
+
+    html += "<hr>";
+
+    html +=
+    "👥 총 참가자 : " +
+    participants.length +
+    "명<br>";
+
+    html +=
+    "🌰 총 도토리 : " +
+    totalAcorns +
+    "개<br>";
+
+    html +=
+    "🏆 완주자 : " +
+    completeUsers +
+    "명";
+
+    html += "</div>";
+
+    document.getElementById("result").innerHTML =
+    html;
+}
+
+function showMyAcorns(){
+
+    let name =
+    document.getElementById("name").value.trim();
+
+    let birth =
+    document.getElementById("birth").value.trim();
+
+    if(name==""){
+        alert("이름을 입력해주세요!");
+        return;
+    }
+
+    if(birth==""){
+        alert("생일을 입력해주세요!");
+        return;
+    }
+
+    let userId =
+    name + "_" + birth;
+
+    let acorns =
+    Number(
+    localStorage.getItem(userId + "_acorn")
+    ) || 0;
+
+    document.getElementById("result").innerHTML =
+    name +
+    " 친구의 도토리<br><br>" +
+    "🌰 ".repeat(acorns) +
+    "<br>총 " +
+    acorns +
+    "개";
+}
+
+window.checkIn = checkIn;
+window.secretClick = secretClick;
+window.showMyAcorns = showMyAcorns;
+</script>
+
+</body>
+</html>
