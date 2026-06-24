@@ -132,7 +132,80 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-alert("Firebase 연결 성공!");
+function getTree(acorns){
+
+    if(acorns >= 30){
+
+        return `
+        <div style="font-size:90px">🏆</div>
+        <div style="font-size:22px;font-weight:bold;">
+        책숲 완성!
+        </div>
+        <div>
+        콩이와 함께 책숲을 만들었어요!
+        </div>
+        `;
+    }
+
+    if(acorns >= 20){
+
+        return `
+        <div style="font-size:80px">
+        🌳🐿️
+        </div>
+        <div>
+        콩이가 찾아왔어요!
+        </div>
+        `;
+    }
+
+    if(acorns >= 15){
+
+        return `
+        <div style="font-size:75px">
+        🌳
+        </div>
+        <div>
+        튼튼한 나무
+        </div>
+        `;
+    }
+
+    if(acorns >= 10){
+
+        return `
+        <div style="font-size:65px">
+        🌿
+        </div>
+        <div>
+        무럭무럭 자라는 나무
+        </div>
+        `;
+    }
+
+    if(acorns >= 5){
+
+        return `
+        <div style="font-size:55px">
+        🌱
+        </div>
+        <div>
+        새싹이 자라고 있어요
+        </div>
+        `;
+    }
+
+    return `
+    <div style="font-size:45px">
+    🌰
+    </div>
+    <div>
+    도토리를 모으는 중!
+    </div>
+    `;
+}
+
+
 
 async function checkIn(){
 
@@ -203,14 +276,18 @@ async function checkIn(){
         lastDate:today
     });
 
-    document.getElementById("result").innerHTML =
-    "🎉 출석 완료!<br><br>" +
-    name +
-    " 친구!<br><br>" +
-    "🌰 ".repeat(acornCount) +
-    "<br>총 " +
-    acornCount +
-    "개";
+let tree = getTree(acornCount);
+
+document.getElementById("result").innerHTML =
+"🎉 출석 완료!<br><br>" +
+tree +
+"<br>" +
+name +
+" 친구!<br><br>" +
+"🌰 ".repeat(Math.min(acornCount,20)) +
+"<br><br>총 " +
+acornCount +
+"개";
 }
 let secretCount = 0;
 
@@ -340,13 +417,17 @@ async function showMyAcorns(){
         data.acorns || 0;
     }
 
-    document.getElementById("result").innerHTML =
-    name +
-    " 친구의 도토리<br><br>" +
-    "🌰 ".repeat(acorns) +
-    "<br>총 " +
-    acorns +
-    "개";
+let tree = getTree(acorns);
+
+document.getElementById("result").innerHTML =
+tree +
+"<br>" +
+name +
+" 친구의 도토리<br><br>" +
+"🌰 ".repeat(Math.min(acorns,20)) +
+"<br><br>총 " +
+acorns +
+"개";
 }
 
 window.checkIn = checkIn;
