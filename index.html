@@ -94,7 +94,7 @@ placeholder="이름">
 <input
 type="text"
 id="birth"
-placeholder="생일 (예: 0509)">
+placeholder="생일 (예: 0101)">
 
 <button onclick="checkIn()">
 🌰 콩! 출석하기
@@ -231,12 +231,15 @@ function adminLogin(){
     let pw =
     prompt("관리자 비밀번호를 입력하세요");
 
-    if(pw !== "0509"){
+   if(pw !== "0509"){
 
-        alert("비밀번호가 틀렸습니다.");
+    alert("비밀번호가 틀렸습니다.");
 
-        return;
-    }
+    return;
+}
+
+showAdminPage();
+}
 
 async function showAdminPage(){
 
@@ -349,6 +352,7 @@ async function showMyAcorns(){
 window.checkIn = checkIn;
 window.secretClick = secretClick;
 window.showMyAcorns = showMyAcorns;
+window.showAdminPage = showAdminPage;
 </script>
 
 </body>
