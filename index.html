@@ -205,6 +205,22 @@ function getTree(acorns){
     `;
 }
 
+function getProgressBar(acorns){
+
+    let percent =
+    Math.min(acorns,30);
+
+    let filled =
+    Math.floor(percent / 30 * 20);
+
+    let empty =
+    20 - filled;
+
+    return (
+        "🟩".repeat(filled) +
+        "⬜".repeat(empty)
+    );
+}
 
 
 async function checkIn(){
@@ -278,12 +294,22 @@ async function checkIn(){
 
 let tree = getTree(acornCount);
 
+let progress =
+getProgressBar(acornCount);
+
 document.getElementById("result").innerHTML =
 "🎉 출석 완료!<br><br>" +
 tree +
 "<br>" +
 name +
 " 친구!<br><br>" +
+"🔥 " +
+acornCount +
+"일째 출석 중<br><br>" +
+progress +
+"<br>" +
+acornCount +
+" / 30일<br><br>" +
 "🌰 ".repeat(Math.min(acornCount,20)) +
 "<br><br>총 " +
 acornCount +
@@ -419,11 +445,27 @@ async function showMyAcorns(){
 
 let tree = getTree(acorns);
 
+let progress =
+getProgressBar(acorns);
+
 document.getElementById("result").innerHTML =
 tree +
 "<br>" +
 name +
 " 친구의 도토리<br><br>" +
+"🔥 " +
+acorns +
+"일째 출석 중<br><br>" +
+
+"<div style='font-size:18px'>" +
+progress +
+"</div>" +
+
+"<br>" +
+
+"<b>" +
+acorns +
+" / 30일</b><br><br>"
 "🌰 ".repeat(Math.min(acorns,20)) +
 "<br><br>총 " +
 acorns +
