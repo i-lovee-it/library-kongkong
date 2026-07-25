@@ -6,23 +6,146 @@
 <meta name="theme-color" content="#6f925e">
 <title>도서관 출석 콩콩</title>
 <style>
-:root{--green:#6f925e;--green-dark:#557546;--cream:#f6f1df;--brown:#725239;--line:#e9e2cf;--text:#3f493a;--soft:#fbf8ef}
+:root{
+  --green:#6f925e;--green-dark:#557546;--cream:#f6f1df;--brown:#725239;
+  --line:#e9e2cf;--text:#3f493a;--soft:#fbf8ef;--gold:#d99a32
+}
 *{box-sizing:border-box}
 html,body{min-height:100%;margin:0}
-body{font-family:"Pretendard","Noto Sans KR","맑은 고딕",sans-serif;background:radial-gradient(circle at top,#fffdf6 0,#f5f0de 45%,#ece5cf 100%);color:var(--text);display:flex;justify-content:center;align-items:flex-start;padding:18px 12px 32px}
+body{
+  font-family:"Pretendard","Noto Sans KR","맑은 고딕",sans-serif;
+  background:radial-gradient(circle at top,#fffdf6 0,#f5f0de 45%,#ece5cf 100%);
+  color:var(--text);display:flex;justify-content:center;align-items:flex-start;
+  padding:18px 12px 32px
+}
 .app{width:min(100%,470px)}
-.card{position:relative;overflow:hidden;background:rgba(255,255,255,.96);border:1px solid rgba(255,255,255,.8);border-radius:28px;padding:24px 20px;box-shadow:0 18px 45px rgba(82,70,43,.14)}
-.card:before,.card:after{content:"";position:absolute;border-radius:50%;background:#eef4e7;z-index:0}.card:before{width:150px;height:150px;right:-70px;top:-65px}.card:after{width:95px;height:95px;left:-55px;bottom:70px}.content{position:relative;z-index:1}
-.mascot{width:102px;height:102px;margin:0 auto 8px;display:grid;place-items:center;border-radius:50%;background:linear-gradient(145deg,#f7e0ae,#efd49a);font-size:66px;box-shadow:0 8px 20px rgba(118,82,37,.15);cursor:pointer;user-select:none;transition:transform .15s}.mascot:active{transform:scale(.94)}
-h1{margin:8px 0 4px;color:var(--green-dark);font-size:30px;letter-spacing:-1.4px}.subtitle{margin:0 0 20px;line-height:1.7;font-size:15px;color:#68715f}
-.field{margin-bottom:12px;text-align:left}.field label{display:block;margin:0 0 6px 4px;font-size:13px;font-weight:800;color:#5f6759}.field input{width:100%;height:52px;padding:0 15px;border:1px solid #ddd6c4;border-radius:15px;background:#fffdfa;font-size:17px;outline:none;transition:.2s}.field input:focus{border-color:#8eae7c;box-shadow:0 0 0 4px rgba(111,146,94,.12)}
-.privacy{margin:16px 0 10px;padding:13px 14px;border-radius:14px;background:#f7f6f1;border:1px solid #ebe7da;text-align:left;font-size:12px;color:#6d7069;line-height:1.6}.privacy b{color:#50564c}.agree{display:flex;align-items:center;justify-content:center;gap:8px;margin:10px 0 16px;font-size:14px}.agree input{width:20px;height:20px;accent-color:var(--green)}
-.actions{display:grid;gap:10px}.btn{width:100%;min-height:54px;border:0;border-radius:16px;font-size:17px;font-weight:900;cursor:pointer;transition:transform .12s,filter .12s;box-shadow:0 8px 16px rgba(83,117,70,.16)}.btn:active{transform:translateY(2px)}.btn.primary{background:linear-gradient(180deg,#86aa73,#6f925e);color:white}.btn.secondary{background:#fffaf0;color:#6d5a40;border:1px solid #eadfc9;box-shadow:none}.btn.small{min-height:42px;font-size:14px;border-radius:12px}.btn.danger{background:#fff0ed;color:#a94c3d;border:1px solid #f0cbc4;box-shadow:none}
-#result{margin-top:18px}.result-card{padding:18px;border:1px solid var(--line);border-radius:20px;background:linear-gradient(180deg,#fffdf8,#fbf8ef);line-height:1.65}.result-title{font-size:22px;font-weight:900;color:var(--green-dark);margin-bottom:6px}.tree{font-size:72px;line-height:1.1;margin:4px 0 8px}.tree-label{font-weight:800;color:#5d684f}.count{margin-top:10px;font-size:18px;font-weight:900;color:var(--brown)}.progress{height:18px;background:#e4e1d7;border-radius:999px;overflow:hidden;margin:12px 0 6px;border:1px solid #dcd7ca}.progress>div{height:100%;background:linear-gradient(90deg,#9fc886,#6f925e);border-radius:inherit;transition:width .6s ease}.milestones{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:14px}.milestone{padding:9px 4px;border-radius:12px;background:#eeeae0;color:#8a887f;font-size:12px;font-weight:800}.milestone.on{background:#e6f2df;color:#557546;border:1px solid #c9dfbd}.acorns{font-size:23px;letter-spacing:2px;word-break:break-all;margin-top:12px}.hint{font-size:12px;color:#8b8f87;margin-top:8px}
-.overlay{position:fixed;inset:0;background:rgba(40,45,35,.48);display:none;align-items:center;justify-content:center;padding:20px;z-index:20}.overlay.show{display:flex}.modal{width:min(100%,420px);background:white;border-radius:24px;padding:24px;text-align:center;box-shadow:0 24px 70px rgba(0,0,0,.22)}.modal-icon{font-size:72px}.modal h2{margin:8px 0;color:var(--green-dark)}.modal p{line-height:1.7}.modal .btn{margin-top:12px}
-.acorn-rain{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:30}.falling{position:absolute;top:-60px;font-size:34px;animation:fall 1.15s ease-in forwards}@keyframes fall{to{transform:translateY(115vh) rotate(320deg);opacity:.15}}@keyframes pop{0%{transform:scale(.3);opacity:0}70%{transform:scale(1.12)}100%{transform:scale(1);opacity:1}}.pop{animation:pop .45s ease}
-.admin{margin-top:4px;text-align:left}.admin h3{text-align:center;color:var(--green-dark);font-size:24px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}.stat{padding:12px 6px;background:#f4f7ef;border-radius:14px;text-align:center}.stat strong{display:block;font-size:20px;color:var(--green-dark)}.search{width:100%;height:44px;border:1px solid #ddd6c4;border-radius:12px;padding:0 12px;margin-bottom:10px}.table-wrap{overflow:auto;max-height:390px;border:1px solid #ece6d8;border-radius:14px}table{width:100%;border-collapse:collapse;min-width:520px;background:white}th,td{padding:10px 8px;border-bottom:1px solid #eee9df;font-size:13px;text-align:center}th{position:sticky;top:0;background:#eef4e9;color:#536548}tr.reward{background:#fff8dc}.admin-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}.loading{padding:20px;color:#6e7668;font-weight:800}.error{padding:15px;border-radius:14px;background:#fff1ee;color:#a54d3f;line-height:1.6}
-@media (max-width:380px){.card{padding:21px 15px}h1{font-size:27px}.mascot{width:90px;height:90px;font-size:58px}.privacy{font-size:11px}}
+.card{
+  position:relative;overflow:hidden;background:rgba(255,255,255,.96);
+  border:1px solid rgba(255,255,255,.8);border-radius:28px;padding:24px 20px;
+  box-shadow:0 18px 45px rgba(82,70,43,.14)
+}
+.card:before,.card:after{
+  content:"";position:absolute;border-radius:50%;background:#eef4e7;z-index:0
+}
+.card:before{width:150px;height:150px;right:-70px;top:-65px}
+.card:after{width:95px;height:95px;left:-55px;bottom:70px}
+.content{position:relative;z-index:1}
+.mascot{
+  width:102px;height:102px;margin:0 auto 8px;display:grid;place-items:center;
+  border-radius:50%;background:linear-gradient(145deg,#f7e0ae,#efd49a);
+  font-size:66px;box-shadow:0 8px 20px rgba(118,82,37,.15);
+  cursor:pointer;user-select:none;transition:transform .15s
+}
+.mascot:active{transform:scale(.94)}
+h1{margin:8px 0 4px;color:var(--green-dark);font-size:30px;letter-spacing:-1.4px}
+.subtitle{margin:0 0 8px;line-height:1.7;font-size:15px;color:#68715f}
+.kong-speech{
+  position:relative;margin:10px 0 20px;padding:12px 14px;background:#fff8e8;
+  border:1px solid #efdfbd;border-radius:16px;color:#6d5a40;font-size:14px;
+  font-weight:800;line-height:1.55
+}
+.kong-speech:before{
+  content:"";position:absolute;top:-8px;left:50%;width:14px;height:14px;
+  background:#fff8e8;border-left:1px solid #efdfbd;border-top:1px solid #efdfbd;
+  transform:translateX(-50%) rotate(45deg)
+}
+.field{margin-bottom:12px;text-align:left}
+.field label{display:block;margin:0 0 6px 4px;font-size:13px;font-weight:800;color:#5f6759}
+.field input{
+  width:100%;height:52px;padding:0 15px;border:1px solid #ddd6c4;border-radius:15px;
+  background:#fffdfa;font-size:17px;outline:none;transition:.2s
+}
+.field input:focus{border-color:#8eae7c;box-shadow:0 0 0 4px rgba(111,146,94,.12)}
+.privacy{
+  margin:16px 0 10px;padding:13px 14px;border-radius:14px;background:#f7f6f1;
+  border:1px solid #ebe7da;text-align:left;font-size:12px;color:#6d7069;line-height:1.6
+}
+.privacy b{color:#50564c}
+.agree{display:flex;align-items:center;justify-content:center;gap:8px;margin:10px 0 16px;font-size:14px}
+.agree input{width:20px;height:20px;accent-color:var(--green)}
+.actions{display:grid;gap:10px}
+.btn{
+  width:100%;min-height:54px;border:0;border-radius:16px;font-size:17px;font-weight:900;
+  cursor:pointer;transition:transform .12s,filter .12s;
+  box-shadow:0 8px 16px rgba(83,117,70,.16)
+}
+.btn:active{transform:translateY(2px)}
+.btn:disabled{opacity:.62;cursor:wait}
+.btn.primary{background:linear-gradient(180deg,#86aa73,#6f925e);color:white}
+.btn.secondary{background:#fffaf0;color:#6d5a40;border:1px solid #eadfc9;box-shadow:none}
+.btn.small{min-height:38px;font-size:13px;border-radius:10px;padding:7px}
+.btn.gift{background:#fff3cf;color:#805b17;border:1px solid #ecd28c;box-shadow:none}
+.btn.done{background:#eef3eb;color:#697463;border:1px solid #d7dfd2;box-shadow:none;cursor:default}
+.btn.danger{background:#fff0ed;color:#a94c3d;border:1px solid #f0cbc4;box-shadow:none}
+#result{margin-top:18px}
+.result-card{
+  padding:18px;border:1px solid var(--line);border-radius:20px;
+  background:linear-gradient(180deg,#fffdf8,#fbf8ef);line-height:1.65
+}
+.result-title{font-size:22px;font-weight:900;color:var(--green-dark);margin-bottom:6px}
+.result-message{
+  margin:8px 0;padding:10px 12px;border-radius:13px;background:#f2f6ed;
+  color:#5c684f;font-size:14px;font-weight:800
+}
+.tree{font-size:72px;line-height:1.1;margin:4px 0 8px}
+.tree-label{font-weight:800;color:#5d684f}
+.count{margin-top:10px;font-size:18px;font-weight:900;color:var(--brown)}
+.progress{height:18px;background:#e4e1d7;border-radius:999px;overflow:hidden;margin:12px 0 6px;border:1px solid #dcd7ca}
+.progress>div{height:100%;background:linear-gradient(90deg,#9fc886,#6f925e);border-radius:inherit;transition:width .6s ease}
+.milestones{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:14px}
+.milestone{padding:9px 4px;border-radius:12px;background:#eeeae0;color:#8a887f;font-size:12px;font-weight:800}
+.milestone.on{background:#e6f2df;color:#557546;border:1px solid #c9dfbd}
+.milestone.received{background:#fff5d9;color:#78591d;border:1px solid #ead18b}
+.reward-status{display:grid;gap:8px;margin-top:12px}
+.reward-row{
+  display:flex;align-items:center;justify-content:space-between;gap:8px;
+  padding:10px 11px;border-radius:13px;background:#f7f5ef;border:1px solid #e9e4d8;
+  font-size:13px;text-align:left
+}
+.reward-row strong{color:#5c654f}
+.reward-row .status{font-weight:900;white-space:nowrap}
+.status.wait{color:#a66a10}
+.status.done{color:#557546}
+.status.lock{color:#96948c}
+.acorns{font-size:23px;letter-spacing:2px;word-break:break-all;margin-top:12px}
+.hint{font-size:12px;color:#8b8f87;margin-top:8px}
+.overlay{
+  position:fixed;inset:0;background:rgba(40,45,35,.48);display:none;
+  align-items:center;justify-content:center;padding:20px;z-index:20
+}
+.overlay.show{display:flex}
+.modal{
+  width:min(100%,420px);background:white;border-radius:24px;padding:24px;text-align:center;
+  box-shadow:0 24px 70px rgba(0,0,0,.22)
+}
+.modal-icon{font-size:72px}
+.modal h2{margin:8px 0;color:var(--green-dark)}
+.modal p{line-height:1.7}
+.modal .btn{margin-top:12px}
+.acorn-rain{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:30}
+.falling{position:absolute;top:-60px;font-size:34px;animation:fall 1.15s ease-in forwards}
+.spark{position:absolute;top:-40px;font-size:26px;animation:fall 1.45s ease-in forwards}
+@keyframes fall{to{transform:translateY(115vh) rotate(320deg);opacity:.15}}
+@keyframes pop{0%{transform:scale(.3);opacity:0}70%{transform:scale(1.12)}100%{transform:scale(1);opacity:1}}
+.pop{animation:pop .45s ease}
+.admin{margin-top:4px;text-align:left}
+.admin h3{text-align:center;color:var(--green-dark);font-size:24px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+.stat{padding:12px 6px;background:#f4f7ef;border-radius:14px;text-align:center}
+.stat strong{display:block;font-size:20px;color:var(--green-dark)}
+.search{width:100%;height:44px;border:1px solid #ddd6c4;border-radius:12px;padding:0 12px;margin-bottom:10px}
+.table-wrap{overflow:auto;max-height:430px;border:1px solid #ece6d8;border-radius:14px}
+table{width:100%;border-collapse:collapse;min-width:720px;background:white}
+th,td{padding:9px 7px;border-bottom:1px solid #eee9df;font-size:12px;text-align:center}
+th{position:sticky;top:0;background:#eef4e9;color:#536548}
+tr.reward{background:#fff8dc}
+.admin-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+.loading{padding:20px;color:#6e7668;font-weight:800}
+.error{padding:15px;border-radius:14px;background:#fff1ee;color:#a54d3f;line-height:1.6}
+@media (max-width:380px){
+  .card{padding:21px 15px}h1{font-size:27px}.mascot{width:90px;height:90px;font-size:58px}
+  .privacy{font-size:11px}.milestone{font-size:11px}
+}
 </style>
 </head>
 <body>
@@ -31,7 +154,8 @@ h1{margin:8px 0 4px;color:var(--green-dark);font-size:30px;letter-spacing:-1.4px
     <div class="content">
       <div class="mascot" id="mascot" onclick="secretClick()" aria-label="관리자 숨은 버튼">🐿️</div>
       <h1>도서관 출석 콩콩</h1>
-      <p class="subtitle">안녕! 나는 책다람쥐 콩이야 🌰<br>도서관에 올 때마다 도토리를 모아 책숲을 완성해 보자!</p>
+      <p class="subtitle">안녕! 나는 책다람쥐 콩이야 🌰<br>독서의 달 동안 도토리 30개를 모아 책숲을 완성해 보자!</p>
+      <div class="kong-speech" id="kongSpeech">오늘은 어떤 책이 널 기다리고 있을까?</div>
 
       <div class="field"><label for="name">이름</label><input id="name" type="text" maxlength="20" autocomplete="off" placeholder="이름을 입력해 주세요"></div>
       <div class="field"><label for="birth">생일 월일 4자리</label><input id="birth" type="tel" inputmode="numeric" maxlength="4" autocomplete="off" placeholder="예: 0101"></div>
@@ -50,7 +174,7 @@ h1{margin:8px 0 4px;color:var(--green-dark);font-size:30px;letter-spacing:-1.4px
 
 <div class="overlay" id="rewardModal">
   <div class="modal pop">
-    <div class="modal-icon">🎁</div>
+    <div class="modal-icon" id="rewardIcon">🎁</div>
     <h2 id="rewardTitle">출석 달성!</h2>
     <p id="rewardText"></p>
     <button class="btn primary" onclick="closeReward()">확인했어요</button>
@@ -60,40 +184,390 @@ h1{margin:8px 0 4px;color:var(--green-dark);font-size:30px;letter-spacing:-1.4px
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
-import { getFirestore, doc, getDoc, setDoc, collection, getDocs, deleteDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+import {
+  getFirestore, doc, getDoc, setDoc, collection, getDocs, deleteDoc, serverTimestamp
+} from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
 
-const firebaseConfig={apiKey:"AIzaSyDRpc1AK0Gaf4gynxyXTIn6ZE0utXLD6rg",authDomain:"library-kongkong.firebaseapp.com",projectId:"library-kongkong",storageBucket:"library-kongkong.firebasestorage.app",messagingSenderId:"443047968802",appId:"1:443047968802:web:326c237815b93f914c0a7b"};
-const app=initializeApp(firebaseConfig); const db=getFirestore(app);
+const firebaseConfig={
+  apiKey:"AIzaSyDRpc1AK0Gaf4gynxyXTIn6ZE0utXLD6rg",
+  authDomain:"library-kongkong.firebaseapp.com",
+  projectId:"library-kongkong",
+  storageBucket:"library-kongkong.firebasestorage.app",
+  messagingSenderId:"443047968802",
+  appId:"1:443047968802:web:326c237815b93f914c0a7b"
+};
+
+const app=initializeApp(firebaseConfig);
+const db=getFirestore(app);
 const $=id=>document.getElementById(id);
-let secretCount=0; let adminRows=[];
+let secretCount=0;
+let adminRows=[];
+
+const kongMessages=[
+  "오늘은 어떤 책이 널 기다리고 있을까?",
+  "도토리보다 책이 더 좋… 아니, 둘 다 좋아!",
+  "쉿! 책들이 이야기를 들려주고 있어.",
+  "엄마가 오늘 밤에는 어떤 책을 읽어주실까?",
+  "책 한 권을 읽으면 마음속에 도토리 하나가 심어진대!",
+  "나는 그림책 냄새가 제일 좋아!",
+  "같이 책숲을 무럭무럭 키워보자!",
+  "반가워! 콩이는 오늘도 여기서 기다렸어.",
+  "책장을 넘길 때마다 새로운 숲이 펼쳐져!",
+  "오늘 읽은 이야기는 마음속에 오래오래 남을 거야."
+];
+
+const rareMessages=[
+  "비밀인데… 밤이 되면 책 속 친구들이 도서관을 산책한대!",
+  "엄마다람쥐가 읽어주는 이야기를 너에게도 들려주고 싶어.",
+  "오늘은 황금도토리처럼 반짝이는 날이야!"
+];
+
+const successMessages=[
+  "오늘도 책숲에 도토리 하나를 심어줘서 고마워!",
+  "또 만났네! 콩이가 기다리고 있었어!",
+  "도토리가 하나 더 모였어!",
+  "오늘의 책숲도 조금 더 자랐어!",
+  "꾸준히 오는 모습이 정말 멋져!",
+  "책과 가까워진 오늘을 축하해!"
+];
+
+function randomItem(arr){return arr[Math.floor(Math.random()*arr.length)]}
+function setRandomKongMessage(){
+  const msg=Math.random()<0.08?randomItem(rareMessages):randomItem(kongMessages);
+  $("kongSpeech").textContent=msg;
+}
+setRandomKongMessage();
 
 function cleanBirth(v){return v.replace(/\D/g,"").slice(0,4)}
 $("birth").addEventListener("input",e=>e.target.value=cleanBirth(e.target.value));
-function localDateKey(){const d=new Date(); const y=d.getFullYear(); const m=String(d.getMonth()+1).padStart(2,"0"); const day=String(d.getDate()).padStart(2,"0"); return `${y}-${m}-${day}`}
-function escapeHtml(v=""){return String(v).replace(/[&<>'"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#39;",'"':"&quot;"}[c]))}
-function getInputs(requireAgree=false){const name=$("name").value.trim(); const birth=cleanBirth($("birth").value); if(!name){alert("이름을 입력해 주세요!");$("name").focus();return null} if(!/^\d{4}$/.test(birth)){alert("생일을 월일 4자리로 입력해 주세요. 예: 0101");$("birth").focus();return null} if(requireAgree&&!$("agree").checked){alert("개인정보 수집·이용에 동의해 주세요.");return null} return{name,birth,userId:`${name}_${birth}`}}
-function treeInfo(n){if(n>=30)return{icon:"🏆🌳🐿️",label:"책숲 완성!"};if(n>=20)return{icon:"🌳🐿️",label:"콩이가 찾아왔어요!"};if(n>=15)return{icon:"🌳",label:"튼튼한 나무가 되었어요"};if(n>=10)return{icon:"🌿",label:"나무가 무럭무럭 자라고 있어요"};if(n>=5)return{icon:"🌱",label:"새싹이 돋았어요"};return{icon:"🌰",label:"도토리를 모으는 중이에요"}}
-function resultHtml(name,n,message){const t=treeInfo(n),p=Math.min(n/30*100,100);return `<div class="result-card pop"><div class="result-title">${message}</div><div class="tree">${t.icon}</div><div class="tree-label">${t.label}</div><div class="count">${escapeHtml(name)} 친구의 도토리 ${n}개</div><div class="progress"><div style="width:${p}%"></div></div><b>${n} / 30일</b><div class="milestones"><div class="milestone ${n>=5?'on':''}">🎁 5회 선물</div><div class="milestone ${n>=15?'on':''}">🎁 15회 선물</div><div class="milestone ${n>=30?'on':''}">🏆 30회 완주</div></div><div class="acorns">${"🌰".repeat(Math.min(n,18))}</div>${n>18?`<div class="hint">도토리가 너무 많아 일부만 보여요!</div>`:""}</div>`}
-function setBusy(b){$("checkBtn").disabled=b;$("viewBtn").disabled=b;$("checkBtn").textContent=b?"처리 중...":"🌰 콩! 출석하기"}
-function rain(){const box=$("acornRain");box.innerHTML="";for(let i=0;i<16;i++){const s=document.createElement("span");s.className="falling";s.textContent="🌰";s.style.left=Math.random()*100+"vw";s.style.animationDelay=Math.random()*.45+"s";s.style.fontSize=(24+Math.random()*24)+"px";box.appendChild(s)}setTimeout(()=>box.innerHTML="",1800)}
-function showReward(n){if(![5,15,30].includes(n))return;$("rewardTitle").textContent=n===30?"책숲 완성!":"선물 받을 시간!";$("rewardText").innerHTML=n===30?"30회 출석을 모두 달성했어요!<br>관리자에게 완주 선물을 확인해 주세요.":`<b>${n}회 출석</b>을 달성했어요!<br>관리자에게 화면을 보여주고 선물을 받아가세요.`;$("rewardModal").classList.add("show")}
+
+function localDateKey(){
+  const d=new Date();
+  const y=d.getFullYear();
+  const m=String(d.getMonth()+1).padStart(2,"0");
+  const day=String(d.getDate()).padStart(2,"0");
+  return `${y}-${m}-${day}`;
+}
+function displayDate(v){
+  if(!v)return "-";
+  const p=String(v).split("-");
+  return p.length===3?`${p[0]}. ${p[1]}. ${p[2]}.`:v;
+}
+function escapeHtml(v=""){
+  return String(v).replace(/[&<>'"]/g,c=>({
+    "&":"&amp;","<":"&lt;",">":"&gt;","'":"&#39;",'"':"&quot;"
+  }[c]));
+}
+function getInputs(requireAgree=false){
+  const name=$("name").value.trim();
+  const birth=cleanBirth($("birth").value);
+  if(!name){alert("이름을 입력해 주세요!");$("name").focus();return null}
+  if(!/^\d{4}$/.test(birth)){
+    alert("생일을 월일 4자리로 입력해 주세요. 예: 0101");
+    $("birth").focus();return null
+  }
+  if(requireAgree&&!$("agree").checked){
+    alert("개인정보 수집·이용에 동의해 주세요.");return null
+  }
+  return{name,birth,userId:`${name}_${birth}`}
+}
+function treeInfo(n){
+  if(n>=30)return{icon:"🏆🌳🐿️",label:"책숲 완성!"};
+  if(n>=20)return{icon:"🌳🐿️",label:"콩이가 찾아왔어요!"};
+  if(n>=15)return{icon:"🌳",label:"튼튼한 책나무가 되었어요"};
+  if(n>=10)return{icon:"🌿",label:"나무가 무럭무럭 자라고 있어요"};
+  if(n>=5)return{icon:"🌱",label:"새싹이 돋았어요"};
+  return{icon:"🌰",label:"도토리를 모으는 중이에요"};
+}
+function nextGoalText(n){
+  if(n<5)return`첫 번째 선물까지 <b>${5-n}일</b> 남았어요!`;
+  if(n<15)return`두 번째 선물까지 <b>${15-n}일</b> 남았어요!`;
+  if(n<30)return`책숲 완주까지 <b>${30-n}일</b> 남았어요!`;
+  return`🏅 <b>책숲 지킴이</b>가 되었어요!`;
+}
+function rewardStatusHtml(n,d={}){
+  const r5=!!d.reward5;
+  const r15=!!d.reward15;
+  return `<div class="reward-status">
+    <div class="reward-row">
+      <strong>🎁 5일 선물</strong>
+      <span class="status ${r5?'done':n>=5?'wait':'lock'}">
+        ${r5?`받음 ✓ ${displayDate(d.reward5Date)}`:n>=5?"선생님께 보여주세요":"아직 도전 중"}
+      </span>
+    </div>
+    <div class="reward-row">
+      <strong>🎁 15일 선물</strong>
+      <span class="status ${r15?'done':n>=15?'wait':'lock'}">
+        ${r15?`받음 ✓ ${displayDate(d.reward15Date)}`:n>=15?"선생님께 보여주세요":"아직 도전 중"}
+      </span>
+    </div>
+  </div>`;
+}
+function resultHtml(name,n,title,d={},detailMessage=""){
+  const t=treeInfo(n);
+  const p=Math.min(n/30*100,100);
+  const m5=n>=5?(d.reward5?"received":"on"):"";
+  const m15=n>=15?(d.reward15?"received":"on"):"";
+  const m30=n>=30?"on":"";
+  return `<div class="result-card pop">
+    <div class="result-title">${title}</div>
+    ${detailMessage?`<div class="result-message">${detailMessage}</div>`:""}
+    <div class="tree">${t.icon}</div>
+    <div class="tree-label">${t.label}</div>
+    <div class="count">${escapeHtml(name)} 친구의 도토리 ${n}개</div>
+    <div class="progress"><div style="width:${p}%"></div></div>
+    <b>${n} / 30일</b>
+    <div class="hint">${nextGoalText(n)}</div>
+    <div class="milestones">
+      <div class="milestone ${m5}">🎁 5일 선물${d.reward5?" ✓":""}</div>
+      <div class="milestone ${m15}">🎁 15일 선물${d.reward15?" ✓":""}</div>
+      <div class="milestone ${m30}">🏆 30일 완주</div>
+    </div>
+    ${rewardStatusHtml(n,d)}
+    <div class="acorns">${"🌰".repeat(Math.min(n,18))}</div>
+    ${n>18?`<div class="hint">도토리가 너무 많아 일부만 보여요!</div>`:""}
+  </div>`;
+}
+function setBusy(b){
+  $("checkBtn").disabled=b;
+  $("viewBtn").disabled=b;
+  $("checkBtn").textContent=b?"처리 중...":"🌰 콩! 출석하기";
+}
+function rain(symbols=["🌰"],count=16){
+  const box=$("acornRain");
+  box.innerHTML="";
+  for(let i=0;i<count;i++){
+    const s=document.createElement("span");
+    s.className=symbols.length>1?"spark":"falling";
+    s.textContent=randomItem(symbols);
+    s.style.left=Math.random()*100+"vw";
+    s.style.animationDelay=Math.random()*.45+"s";
+    s.style.fontSize=(24+Math.random()*24)+"px";
+    box.appendChild(s);
+  }
+  setTimeout(()=>box.innerHTML="",1900);
+}
+function showMilestone(n){
+  if(![5,15,30].includes(n))return;
+  if(n===30){
+    $("rewardIcon").textContent="🏆🌳";
+    $("rewardTitle").textContent="책숲 완주!";
+    $("rewardText").innerHTML=
+      "우와! 우리가 함께 심은 도토리 30개가<br>커다란 책나무로 자랐어!<br><br>"+
+      "<b>끝까지 책숲을 키워줘서 정말 고마워.<br>너는 콩이의 최고의 독서 친구야!</b><br><br>"+
+      "🏅 책숲 지킴이";
+    rain(["✨","🌿","🌰"],24);
+  }else{
+    $("rewardIcon").textContent="🎁";
+    $("rewardTitle").textContent=n===5?"첫 번째 선물을 받을 수 있어요!":"두 번째 선물을 받을 수 있어요!";
+    $("rewardText").innerHTML=
+      `<b>출석 ${n}일 달성!</b><br><br>`+
+      (n===5
+        ?"우와! 마음속 도토리가 벌써 5개나 모였어!"
+        :"정말 대단해! 네가 심은 도토리 덕분에 책나무가 무럭무럭 자랐어!")+
+      "<br><br>선생님께 이 화면을 보여주고 선물을 받아가세요.";
+  }
+  $("rewardModal").classList.add("show");
+}
 function closeReward(){$("rewardModal").classList.remove("show")}
 
-async function checkIn(){const u=getInputs(true);if(!u)return;setBusy(true);$("result").innerHTML='<div class="loading">콩이가 출석을 확인하고 있어요… 🐿️</div>';try{const ref=doc(db,"participants",u.userId);const snap=await getDoc(ref);let n=0,last="",reward5=false,reward15=false,reward30=false;if(snap.exists()){const d=snap.data();n=d.acorns||0;last=d.lastDate||"";reward5=!!d.reward5;reward15=!!d.reward15;reward30=!!d.reward30}const today=localDateKey();if(last===today){$("result").innerHTML=resultHtml(u.name,n,"오늘은 이미 출석했어요 😊");return}n++;await setDoc(ref,{name:u.name,birth:u.birth,acorns:n,lastDate:today,reward5,reward15,reward30,updatedAt:serverTimestamp()},{merge:true});rain();$("result").innerHTML=resultHtml(u.name,n,"🎉 출석 완료!");showReward(n)}catch(e){console.error(e);$("result").innerHTML='<div class="error">출석 정보를 불러오지 못했어요.<br>인터넷 연결과 Firebase 설정을 확인해 주세요.</div>'}finally{setBusy(false)}}
+async function checkIn(){
+  const u=getInputs(true);
+  if(!u)return;
+  setBusy(true);
+  $("result").innerHTML='<div class="loading">콩이가 출석을 확인하고 있어요… 🐿️</div>';
+  try{
+    const ref=doc(db,"participants",u.userId);
+    const snap=await getDoc(ref);
+    let n=0,last="",data={};
+    if(snap.exists()){
+      data=snap.data();
+      n=data.acorns||0;
+      last=data.lastDate||"";
+    }
+    const today=localDateKey();
+    if(last===today){
+      $("result").innerHTML=resultHtml(
+        u.name,n,"오늘은 이미 출석했어요 😊",data,
+        "헤헤, 콩이는 기억하고 있었지! 내일 다시 만나자."
+      );
+      return;
+    }
+    n=Math.min(n+1,30);
+    const updated={
+      name:u.name,birth:u.birth,acorns:n,lastDate:today,
+      reward5:!!data.reward5,reward15:!!data.reward15,
+      reward5Date:data.reward5Date||"",reward15Date:data.reward15Date||"",
+      updatedAt:serverTimestamp()
+    };
+    await setDoc(ref,updated,{merge:true});
+    rain();
+    const success=randomItem(successMessages);
+    $("kongSpeech").textContent=success;
+    $("result").innerHTML=resultHtml(u.name,n,"🎉 출석 완료!",updated,success);
+    showMilestone(n);
+  }catch(e){
+    console.error(e);
+    $("result").innerHTML='<div class="error">출석 정보를 불러오지 못했어요.<br>인터넷 연결과 Firebase 설정을 확인해 주세요.</div>';
+  }finally{
+    setBusy(false);
+  }
+}
 
-async function showMyAcorns(){const u=getInputs(false);if(!u)return;setBusy(true);$("result").innerHTML='<div class="loading">도토리를 찾고 있어요… 🌰</div>';try{const snap=await getDoc(doc(db,"participants",u.userId));if(!snap.exists()){$("result").innerHTML=resultHtml(u.name,0,"아직 모은 도토리가 없어요");return}const d=snap.data();$("result").innerHTML=resultHtml(u.name,d.acorns||0,"나의 출석 현황") }catch(e){console.error(e);$("result").innerHTML='<div class="error">정보를 불러오지 못했어요.<br>잠시 후 다시 시도해 주세요.</div>'}finally{setBusy(false)}}
+async function showMyAcorns(){
+  const u=getInputs(false);
+  if(!u)return;
+  setBusy(true);
+  $("result").innerHTML='<div class="loading">도토리를 찾고 있어요… 🌰</div>';
+  try{
+    const snap=await getDoc(doc(db,"participants",u.userId));
+    if(!snap.exists()){
+      $("result").innerHTML=resultHtml(u.name,0,"아직 모은 도토리가 없어요",{},
+        "오늘부터 콩이와 함께 책숲을 키워보자!");
+      return;
+    }
+    const d=snap.data();
+    $("result").innerHTML=resultHtml(u.name,d.acorns||0,"나의 출석 현황",d,
+      randomItem(kongMessages));
+  }catch(e){
+    console.error(e);
+    $("result").innerHTML='<div class="error">정보를 불러오지 못했어요.<br>잠시 후 다시 시도해 주세요.</div>';
+  }finally{
+    setBusy(false);
+  }
+}
 
-function secretClick(){secretCount++;$("mascot").style.transform=`rotate(${secretCount%2?'-8':'8'}deg)`;setTimeout(()=>$("mascot").style.transform="",120);if(secretCount>=5){secretCount=0;adminLogin()}}
-function adminLogin(){const pw=prompt("관리자 비밀번호를 입력하세요");if(pw===null)return;if(pw!=="0509"){alert("비밀번호가 틀렸습니다.");return}showAdminPage()}
-async function showAdminPage(){setBusy(true);$("result").innerHTML='<div class="loading">참가자 목록을 불러오고 있어요…</div>';try{const snap=await getDocs(collection(db,"participants"));adminRows=[];snap.forEach(s=>adminRows.push({id:s.id,...s.data()}));adminRows.sort((a,b)=>(b.acorns||0)-(a.acorns||0));renderAdmin(adminRows)}catch(e){console.error(e);$("result").innerHTML='<div class="error">관리자 정보를 불러오지 못했어요.<br>Firestore 보안 규칙을 확인해 주세요.</div>'}finally{setBusy(false)}}
-function renderAdmin(rows){const total=rows.reduce((s,r)=>s+(r.acorns||0),0),complete=rows.filter(r=>(r.acorns||0)>=30).length;const trs=rows.map(r=>{const n=r.acorns||0;const reward=n>=5&&!r.reward5||n>=15&&!r.reward15||n>=30&&!r.reward30;return `<tr class="${reward?'reward':''}"><td>${escapeHtml(r.name)}</td><td>${escapeHtml(r.birth)}</td><td><b>${n}</b></td><td>${escapeHtml(r.lastDate||'-')}</td><td><button class="btn small" onclick="markReward('${encodeURIComponent(r.id)}',${n})">선물확인</button></td><td><button class="btn small danger" onclick="removeUser('${encodeURIComponent(r.id)}','${escapeHtml(r.name)}')">삭제</button></td></tr>`}).join("");$("result").innerHTML=`<div class="result-card admin"><h3>📋 관리자 페이지</h3><div class="stats"><div class="stat"><strong>${rows.length}</strong>참가자</div><div class="stat"><strong>${total}</strong>도토리</div><div class="stat"><strong>${complete}</strong>완주자</div></div><input class="search" id="adminSearch" placeholder="이름 또는 생일 검색" oninput="filterAdmin()"><div class="table-wrap"><table><thead><tr><th>이름</th><th>생일</th><th>출석</th><th>마지막 출석</th><th>선물</th><th>삭제</th></tr></thead><tbody>${trs||'<tr><td colspan="6">참가자가 없습니다.</td></tr>'}</tbody></table></div><div class="admin-actions"><button class="btn secondary small" onclick="downloadCsv()">CSV 내려받기</button><button class="btn secondary small" onclick="closeAdmin()">참가자 화면으로</button></div><div class="hint">노란색 행은 달성 선물 확인이 필요한 참가자입니다.</div></div>`}
-function filterAdmin(){const q=$("adminSearch").value.trim().toLowerCase();renderAdmin(adminRows.filter(r=>(r.name||"").toLowerCase().includes(q)||(r.birth||"").includes(q)));setTimeout(()=>{$("adminSearch").value=q;$("adminSearch").focus()},0)}
-async function markReward(encoded,n){const id=decodeURIComponent(encoded);const field=n>=30?"reward30":n>=15?"reward15":n>=5?"reward5":null;if(!field){alert("아직 선물 기준을 달성하지 않았어요.");return}await setDoc(doc(db,"participants",id),{[field]:true},{merge:true});alert("선물 수령 확인을 저장했습니다.");showAdminPage()}
-async function removeUser(encoded,name){if(!confirm(`${name} 참가자의 출석 기록을 삭제할까요?\n삭제 후 되돌릴 수 없습니다.`))return;await deleteDoc(doc(db,"participants",decodeURIComponent(encoded)));showAdminPage()}
-function downloadCsv(){const header=["이름","생일","출석수","마지막출석","5회선물","15회선물","30회완주"];const lines=adminRows.map(r=>[r.name,r.birth,r.acorns||0,r.lastDate||"",r.reward5?"완료":"",r.reward15?"완료":"",r.reward30?"완료":""].map(v=>`"${String(v).replace(/"/g,'""')}"`).join(","));const blob=new Blob(["\ufeff"+[header.join(","),...lines].join("\n")],{type:"text/csv;charset=utf-8"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=`도서관_출석콩콩_${localDateKey()}.csv`;a.click();URL.revokeObjectURL(a.href)}
-function closeAdmin(){$("result").innerHTML=""}
+function secretClick(){
+  secretCount++;
+  $("mascot").style.transform=`rotate(${secretCount%2?'-8':'8'}deg)`;
+  setTimeout(()=>$("mascot").style.transform="",120);
+  if(secretCount>=5){secretCount=0;adminLogin()}
+}
+function adminLogin(){
+  const pw=prompt("관리자 비밀번호를 입력하세요");
+  if(pw===null)return;
+  if(pw!=="0509"){alert("비밀번호가 틀렸습니다.");return}
+  showAdminPage();
+}
+async function showAdminPage(){
+  setBusy(true);
+  $("result").innerHTML='<div class="loading">참가자 목록을 불러오고 있어요…</div>';
+  try{
+    const snap=await getDocs(collection(db,"participants"));
+    adminRows=[];
+    snap.forEach(s=>adminRows.push({id:s.id,...s.data()}));
+    adminRows.sort((a,b)=>(b.acorns||0)-(a.acorns||0));
+    renderAdmin(adminRows);
+  }catch(e){
+    console.error(e);
+    $("result").innerHTML='<div class="error">관리자 정보를 불러오지 못했어요.<br>Firestore 보안 규칙을 확인해 주세요.</div>';
+  }finally{
+    setBusy(false);
+  }
+}
+function giftButton(r,milestone){
+  const n=r.acorns||0;
+  const received=milestone===5?!!r.reward5:!!r.reward15;
+  if(received){
+    const date=milestone===5?r.reward5Date:r.reward15Date;
+    return `<button class="btn small done" disabled>완료 ${displayDate(date)}</button>`;
+  }
+  if(n<milestone){
+    return `<button class="btn small done" disabled>${milestone-n}일 남음</button>`;
+  }
+  return `<button class="btn small gift" onclick="markReward('${encodeURIComponent(r.id)}',${milestone},'${escapeHtml(r.name)}')">${milestone}일 지급</button>`;
+}
+function renderAdmin(rows){
+  const total=rows.reduce((s,r)=>s+(r.acorns||0),0);
+  const complete=rows.filter(r=>(r.acorns||0)>=30).length;
+  const waiting=rows.filter(r=>{
+    const n=r.acorns||0;
+    return (n>=5&&!r.reward5)||(n>=15&&!r.reward15);
+  }).length;
+  const trs=rows.map(r=>{
+    const n=r.acorns||0;
+    const reward=(n>=5&&!r.reward5)||(n>=15&&!r.reward15);
+    return `<tr class="${reward?'reward':''}">
+      <td>${escapeHtml(r.name)}</td>
+      <td>${escapeHtml(r.birth)}</td>
+      <td><b>${n}</b></td>
+      <td>${escapeHtml(r.lastDate||"-")}</td>
+      <td>${giftButton(r,5)}</td>
+      <td>${giftButton(r,15)}</td>
+      <td>${n>=30?"🏅 완주":"-"}</td>
+      <td><button class="btn small danger" onclick="removeUser('${encodeURIComponent(r.id)}','${escapeHtml(r.name)}')">삭제</button></td>
+    </tr>`;
+  }).join("");
+  $("result").innerHTML=`<div class="result-card admin">
+    <h3>📋 관리자 페이지</h3>
+    <div class="stats">
+      <div class="stat"><strong>${rows.length}</strong>참가자</div>
+      <div class="stat"><strong>${waiting}</strong>선물 대기</div>
+      <div class="stat"><strong>${complete}</strong>완주자</div>
+    </div>
+    <div class="hint" style="text-align:center;margin-bottom:10px">전체 도토리 ${total}개</div>
+    <input class="search" id="adminSearch" placeholder="이름 또는 생일 검색" oninput="filterAdmin()">
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>이름</th><th>생일</th><th>출석</th><th>마지막 출석</th><th>5일 선물</th><th>15일 선물</th><th>30일</th><th>삭제</th></tr></thead>
+        <tbody>${trs||'<tr><td colspan="8">참가자가 없습니다.</td></tr>'}</tbody>
+      </table>
+    </div>
+    <div class="admin-actions">
+      <button class="btn secondary small" onclick="downloadCsv()">CSV 내려받기</button>
+      <button class="btn secondary small" onclick="closeAdmin()">참가자 화면으로</button>
+    </div>
+    <div class="hint">노란색 행은 선물 지급 확인이 필요한 참가자입니다.</div>
+  </div>`;
+}
+function filterAdmin(){
+  const q=$("adminSearch").value.trim().toLowerCase();
+  renderAdmin(adminRows.filter(r=>
+    (r.name||"").toLowerCase().includes(q)||(r.birth||"").includes(q)
+  ));
+  setTimeout(()=>{$("adminSearch").value=q;$("adminSearch").focus()},0);
+}
+async function markReward(encoded,milestone,name){
+  const id=decodeURIComponent(encoded);
+  const row=adminRows.find(r=>r.id===id);
+  if(!row)return;
+  const n=row.acorns||0;
+  if(n<milestone){alert("아직 선물 기준을 달성하지 않았어요.");return}
+  if(!confirm(`${name} 어린이에게 ${milestone}일 선물을 지급할까요?\n지급 완료 날짜가 함께 저장됩니다.`))return;
+  const field=milestone===5?"reward5":"reward15";
+  const dateField=milestone===5?"reward5Date":"reward15Date";
+  await setDoc(doc(db,"participants",id),{
+    [field]:true,[dateField]:localDateKey(),updatedAt:serverTimestamp()
+  },{merge:true});
+  alert(`${milestone}일 선물 지급 완료로 저장했습니다.`);
+  showAdminPage();
+}
+async function removeUser(encoded,name){
+  if(!confirm(`${name} 참가자의 출석 기록을 삭제할까요?\n삭제 후 되돌릴 수 없습니다.`))return;
+  await deleteDoc(doc(db,"participants",decodeURIComponent(encoded)));
+  showAdminPage();
+}
+function downloadCsv(){
+  const header=["이름","생일","출석수","마지막출석","5일선물","5일선물지급일","15일선물","15일선물지급일","30일완주"];
+  const lines=adminRows.map(r=>[
+    r.name,r.birth,r.acorns||0,r.lastDate||"",
+    r.reward5?"완료":"",r.reward5Date||"",
+    r.reward15?"완료":"",r.reward15Date||"",
+    (r.acorns||0)>=30?"완주":""
+  ].map(v=>`"${String(v).replace(/"/g,'""')}"`).join(","));
+  const blob=new Blob(["\ufeff"+[header.join(","),...lines].join("\n")],{type:"text/csv;charset=utf-8"});
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(blob);
+  a.download=`도서관_출석콩콩_${localDateKey()}.csv`;
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+function closeAdmin(){$("result").innerHTML="";setRandomKongMessage()}
 
-Object.assign(window,{checkIn,showMyAcorns,secretClick,closeReward,showAdminPage,filterAdmin,markReward,removeUser,downloadCsv,closeAdmin});
+Object.assign(window,{
+  checkIn,showMyAcorns,secretClick,closeReward,showAdminPage,filterAdmin,
+  markReward,removeUser,downloadCsv,closeAdmin
+});
 </script>
 </body>
 </html>
