@@ -31,31 +31,61 @@ body{
 .card:after{width:95px;height:95px;left:-55px;bottom:70px}
 .content{position:relative;z-index:1}
 .mascot{
-  width:128px;
-  height:128px;
-  margin:12px auto 10px;
-  background-image:url("images/kong-sprite.png");
-  background-repeat:no-repeat;
-  background-size:400% 100%;
-  background-position:0% 0%;
-  image-rendering:pixelated;
+  width:138px;
+  height:138px;
+  margin:8px auto 6px;
   cursor:pointer;
   user-select:none;
   transition:transform .15s;
-  animation:kongIdle 2.8s steps(1,end) infinite;
 }
-.mascot:active{transform:scale(.94)}
-.mascot.success{
-  animation:none;
-  background-position:100% 0%;
-  transform:translateY(-4px) scale(1.06);
+.mascot:active{transform:scale(.96)}
+.kongi-svg{
+  width:100%;
+  height:100%;
+  display:block;
+  overflow:visible;
+  shape-rendering:crispEdges;
 }
-@keyframes kongIdle{
-  0%,22%{background-position:0% 0%}
-  23%,35%{background-position:33.333% 0%}
-  36%,67%{background-position:66.666% 0%}
-  68%,88%{background-position:0% 0%}
-  89%,100%{background-position:100% 0%}
+.kongi-pixel{
+  animation:kongiPixelBounce 2.2s steps(1,end) infinite;
+  transform-origin:64px 108px;
+}
+.kongi-pixel-arm{
+  animation:kongiPixelWave .65s steps(2,end) infinite alternate;
+  transform-origin:84px 72px;
+  transform-box:view-box;
+}
+.kongi-pixel-tail{
+  animation:kongiPixelTail 1.4s steps(2,end) infinite alternate;
+  transform-origin:88px 72px;
+  transform-box:view-box;
+}
+.mascot.success .kongi-pixel{
+  animation:kongiPixelCelebrate .36s steps(2,end) 4;
+}
+.mascot.success .kongi-pixel-arm{
+  animation:kongiPixelWaveFast .16s steps(2,end) 8 alternate;
+}
+@keyframes kongiPixelWave{
+  from{transform:rotate(-10deg)}
+  to{transform:rotate(16deg)}
+}
+@keyframes kongiPixelWaveFast{
+  from{transform:rotate(-18deg)}
+  to{transform:rotate(24deg)}
+}
+@keyframes kongiPixelTail{
+  from{transform:rotate(-2deg)}
+  to{transform:rotate(3deg)}
+}
+@keyframes kongiPixelBounce{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-2px)}
+}
+@keyframes kongiPixelCelebrate{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-7px)}
+}
 }
 h1{margin:8px 0 4px;color:var(--green-dark);font-size:30px;letter-spacing:-1.4px}
 .subtitle{margin:0 0 8px;line-height:1.7;font-size:15px;color:#68715f}
@@ -163,7 +193,7 @@ tr.reward{background:#fff8dc}
 .loading{padding:20px;color:#6e7668;font-weight:800}
 .error{padding:15px;border-radius:14px;background:#fff1ee;color:#a54d3f;line-height:1.6}
 @media (max-width:380px){
-  .card{padding:21px 15px}h1{font-size:27px}.mascot{width:104px;height:104px}
+  .card{padding:21px 15px}h1{font-size:27px}.mascot{width:118px;height:118px}
   .privacy{font-size:11px}.milestone{font-size:11px}
 }
 
@@ -174,7 +204,7 @@ tr.reward{background:#fff8dc}
   .content{max-width:620px;margin:0 auto}
   h1{font-size:36px;text-align:center}
   .subtitle{text-align:center;font-size:16px}
-  .mascot{width:144px;height:144px}
+  .mascot{width:154px;height:154px}
   .actions{grid-template-columns:1fr 1fr}
   .kong-speech{font-size:15px}
 }
@@ -189,7 +219,7 @@ tr.reward{background:#fff8dc}
   .card{border-radius:22px;padding:20px 15px}
   h1{font-size:27px;text-align:center}
   .subtitle{text-align:center;font-size:14px;line-height:1.6}
-  .mascot{width:108px;height:108px}
+  .mascot{width:120px;height:120px}
   .field input{height:50px;font-size:16px}
   .btn{min-height:52px;font-size:16px}
   .milestones{grid-template-columns:1fr}
@@ -206,8 +236,91 @@ tr.reward{background:#fff8dc}
 <main class="app">
   <section class="card">
     <div class="content">
+      <div class="mascot" id="mascot" onclick="secretClick()" role="img" aria-label="손을 흔드는 픽셀 책다람쥐 콩이">
+        <svg class="kongi-svg" viewBox="0 0 128 128" aria-hidden="true">
+          <g class="kongi-pixel">
+            <!-- 길고 가벼운 꼬리 -->
+            <g class="kongi-pixel-tail">
+              <rect x="88" y="72" width="8" height="8" fill="#3A302D"/>
+              <rect x="96" y="64" width="8" height="8" fill="#3A302D"/>
+              <rect x="104" y="56" width="8" height="8" fill="#3A302D"/>
+              <rect x="104" y="48" width="8" height="8" fill="#3A302D"/>
+              <rect x="96" y="40" width="8" height="8" fill="#3A302D"/>
+              <rect x="88" y="48" width="8" height="8" fill="#D7653B"/>
+              <rect x="96" y="48" width="8" height="8" fill="#F08B2A"/>
+              <rect x="96" y="56" width="8" height="8" fill="#D7653B"/>
+              <rect x="88" y="56" width="8" height="16" fill="#D7653B"/>
+            </g>
+
+            <!-- 머리 외곽 -->
+            <rect x="32" y="28" width="8" height="8" fill="#3A302D"/>
+            <rect x="40" y="20" width="8" height="8" fill="#3A302D"/>
+            <rect x="72" y="20" width="8" height="8" fill="#3A302D"/>
+            <rect x="80" y="28" width="8" height="8" fill="#3A302D"/>
+            <rect x="40" y="28" width="40" height="8" fill="#3A302D"/>
+            <rect x="32" y="36" width="56" height="8" fill="#3A302D"/>
+            <rect x="24" y="44" width="72" height="24" fill="#3A302D"/>
+            <rect x="32" y="68" width="56" height="8" fill="#3A302D"/>
+
+            <!-- 머리 색 -->
+            <rect x="40" y="28" width="8" height="8" fill="#F08B2A"/>
+            <rect x="72" y="28" width="8" height="8" fill="#D7653B"/>
+            <rect x="32" y="36" width="48" height="8" fill="#F08B2A"/>
+            <rect x="80" y="36" width="8" height="8" fill="#D7653B"/>
+            <rect x="32" y="44" width="56" height="16" fill="#F08B2A"/>
+            <rect x="24" y="52" width="8" height="8" fill="#F08B2A"/>
+            <rect x="88" y="52" width="8" height="8" fill="#D7653B"/>
+            <rect x="32" y="60" width="56" height="8" fill="#D7653B"/>
+
+            <!-- 얼굴 -->
+            <rect x="40" y="44" width="16" height="16" fill="#FFE7A8"/>
+            <rect x="64" y="44" width="16" height="16" fill="#FFE7A8"/>
+            <rect x="48" y="52" width="24" height="16" fill="#FFE7A8"/>
+            <rect x="48" y="48" width="8" height="8" fill="#283A34"/>
+            <rect x="68" y="48" width="8" height="8" fill="#283A34"/>
+            <rect x="50" y="48" width="3" height="3" fill="#FFFFFF"/>
+            <rect x="70" y="48" width="3" height="3" fill="#FFFFFF"/>
+            <rect x="36" y="58" width="8" height="4" fill="#F07C73"/>
+            <rect x="80" y="58" width="8" height="4" fill="#F07C73"/>
+            <rect x="59" y="57" width="5" height="4" fill="#3A302D"/>
+
+            <!-- 몸통 외곽 -->
+            <rect x="42" y="76" width="40" height="8" fill="#3A302D"/>
+            <rect x="34" y="84" width="56" height="24" fill="#3A302D"/>
+            <rect x="42" y="108" width="40" height="8" fill="#3A302D"/>
+
+            <!-- 몸통 -->
+            <rect x="42" y="76" width="32" height="8" fill="#B95B3C"/>
+            <rect x="42" y="84" width="40" height="16" fill="#B95B3C"/>
+            <rect x="50" y="84" width="24" height="24" fill="#FFE7A8"/>
+            <rect x="42" y="100" width="40" height="8" fill="#B95B3C"/>
+
+            <!-- 초록 가방 -->
+            <rect x="34" y="80" width="8" height="24" fill="#4E8737"/>
+            <rect x="82" y="80" width="8" height="24" fill="#4E8737"/>
+
+            <!-- 다리 -->
+            <rect x="42" y="108" width="16" height="8" fill="#D7653B"/>
+            <rect x="66" y="108" width="16" height="8" fill="#D7653B"/>
+
+            <!-- 왼팔 -->
+            <rect x="34" y="84" width="8" height="20" fill="#D7653B"/>
+
+            <!-- 흔드는 오른팔 -->
+            <g class="kongi-pixel-arm">
+              <rect x="82" y="72" width="8" height="24" fill="#3A302D"/>
+              <rect x="82" y="72" width="8" height="16" fill="#D7653B"/>
+              <rect x="82" y="64" width="16" height="8" fill="#3A302D"/>
+              <rect x="84" y="64" width="12" height="8" fill="#F08B2A"/>
+            </g>
+
+            <!-- 나뭇잎 -->
+            <rect x="68" y="24" width="12" height="6" fill="#5D9E35"/>
+            <rect x="74" y="20" width="10" height="6" fill="#7DBA42"/>
+          </g>
+        </svg>
+      </div>
       <h1>도서관 출석 콩콩</h1>
-      <div class="mascot" id="mascot" onclick="secretClick()" role="img" aria-label="책다람쥐 콩이"></div>
       <p class="subtitle">안녕! 나는 책다람쥐 콩이야 🌰<br>독서의 달 동안 24일 출석하고 도서관 책숲지킴이 배지를 받아보자!</p>
       <div class="kong-speech" id="kongSpeech">오늘은 어떤 책이 널 기다리고 있을까?</div>
 
