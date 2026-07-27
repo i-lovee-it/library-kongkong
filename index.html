@@ -31,12 +31,32 @@ body{
 .card:after{width:95px;height:95px;left:-55px;bottom:70px}
 .content{position:relative;z-index:1}
 .mascot{
-  width:102px;height:102px;margin:0 auto 8px;display:grid;place-items:center;
-  border-radius:50%;background:linear-gradient(145deg,#f7e0ae,#efd49a);
-  font-size:66px;box-shadow:0 8px 20px rgba(118,82,37,.15);
-  cursor:pointer;user-select:none;transition:transform .15s
+  width:128px;
+  height:128px;
+  margin:12px auto 10px;
+  background-image:url("images/kong-sprite.png");
+  background-repeat:no-repeat;
+  background-size:400% 100%;
+  background-position:0% 0%;
+  image-rendering:pixelated;
+  cursor:pointer;
+  user-select:none;
+  transition:transform .15s;
+  animation:kongIdle 2.8s steps(1,end) infinite;
 }
 .mascot:active{transform:scale(.94)}
+.mascot.success{
+  animation:none;
+  background-position:100% 0%;
+  transform:translateY(-4px) scale(1.06);
+}
+@keyframes kongIdle{
+  0%,22%{background-position:0% 0%}
+  23%,35%{background-position:33.333% 0%}
+  36%,67%{background-position:66.666% 0%}
+  68%,88%{background-position:0% 0%}
+  89%,100%{background-position:100% 0%}
+}
 h1{margin:8px 0 4px;color:var(--green-dark);font-size:30px;letter-spacing:-1.4px}
 .subtitle{margin:0 0 8px;line-height:1.7;font-size:15px;color:#68715f}
 .kong-speech{
@@ -143,7 +163,7 @@ tr.reward{background:#fff8dc}
 .loading{padding:20px;color:#6e7668;font-weight:800}
 .error{padding:15px;border-radius:14px;background:#fff1ee;color:#a54d3f;line-height:1.6}
 @media (max-width:380px){
-  .card{padding:21px 15px}h1{font-size:27px}.mascot{width:90px;height:90px;font-size:58px}
+  .card{padding:21px 15px}h1{font-size:27px}.mascot{width:104px;height:104px}
   .privacy{font-size:11px}.milestone{font-size:11px}
 }
 
@@ -154,7 +174,7 @@ tr.reward{background:#fff8dc}
   .content{max-width:620px;margin:0 auto}
   h1{font-size:36px;text-align:center}
   .subtitle{text-align:center;font-size:16px}
-  .mascot{width:118px;height:118px;font-size:76px}
+  .mascot{width:144px;height:144px}
   .actions{grid-template-columns:1fr 1fr}
   .kong-speech{font-size:15px}
 }
@@ -169,7 +189,7 @@ tr.reward{background:#fff8dc}
   .card{border-radius:22px;padding:20px 15px}
   h1{font-size:27px;text-align:center}
   .subtitle{text-align:center;font-size:14px;line-height:1.6}
-  .mascot{width:88px;height:88px;font-size:56px}
+  .mascot{width:108px;height:108px}
   .field input{height:50px;font-size:16px}
   .btn{min-height:52px;font-size:16px}
   .milestones{grid-template-columns:1fr}
@@ -186,8 +206,8 @@ tr.reward{background:#fff8dc}
 <main class="app">
   <section class="card">
     <div class="content">
-      <div class="mascot" id="mascot" onclick="secretClick()" aria-label="관리자 숨은 버튼">🐿️</div>
       <h1>도서관 출석 콩콩</h1>
+      <div class="mascot" id="mascot" onclick="secretClick()" role="img" aria-label="책다람쥐 콩이"></div>
       <p class="subtitle">안녕! 나는 책다람쥐 콩이야 🌰<br>독서의 달 동안 24일 출석하고 도서관 책숲지킴이 배지를 받아보자!</p>
       <div class="kong-speech" id="kongSpeech">오늘은 어떤 책이 널 기다리고 있을까?</div>
 
@@ -405,6 +425,13 @@ function showMilestone(n){
 }
 function closeReward(){$("rewardModal").classList.remove("show")}
 
+function playKongSuccess(){
+  const kong=$("mascot");
+  if(!kong)return;
+  kong.classList.add("success");
+  setTimeout(()=>kong.classList.remove("success"),1400);
+}
+
 async function checkIn(){
   const u=getInputs(true);
   if(!u)return;
@@ -436,6 +463,7 @@ async function checkIn(){
     };
     await setDoc(ref,updated,{merge:true});
     rain();
+    playKongSuccess();
     const success=randomItem(successMessages);
     $("kongSpeech").textContent=success;
     $("result").innerHTML=resultHtml(u.name,n,"🎉 출석 완료!",updated,success);
